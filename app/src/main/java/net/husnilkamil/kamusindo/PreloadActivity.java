@@ -35,6 +35,11 @@ public class PreloadActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
 
+            AppConfig appConfig = new AppConfig(getApplicationContext());
+            Boolean firstRun = appConfig.getFirstRun();
+            if(firstRun){
+
+            }
             return null;
         }
     }
