@@ -8,9 +8,8 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragment_kamus"
-        android:name="net.husnilkamil.kamusindo.fragments.IndoFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />

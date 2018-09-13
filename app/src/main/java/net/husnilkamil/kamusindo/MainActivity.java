@@ -22,8 +22,6 @@ import net.husnilkamil.kamusindo.fragments.IndoFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    FragmentManager fragmentManager;
-
     EnglishFragment engFragment;
     IndoFragment indFragment;
     AppConfig appConfig;
@@ -50,12 +48,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        indFragment = new IndoFragment();
 
-        engFragment = new EnglishFragment();
-        fragmentTransaction.add(R.id.fragment_kamus, engFragment);
-        fragmentTransaction.commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_kamus, indFragment)
+                .commit();
     }
 
     private void doPreloadData() {
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -96,32 +94,27 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction;
         switch (id){
             case R.id.nav_indo_eng:
-                    if(fragmentManager == null){
-                        fragmentManager = getSupportFragmentManager();
-                    }
-                    fragmentTransaction = fragmentManager.beginTransaction();
 
                 if(indFragment == null){
                     indFragment = new IndoFragment();
                 }
-                fragmentTransaction.replace(R.id.fragment_kamus, indFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_kamus, indFragment)
+                        .commit();
 
                 break;
             case R.id.nav_eng_indo:
 
-                    if(fragmentManager == null){
-                        fragmentManager = getSupportFragmentManager();
-                    }
-                    fragmentTransaction = fragmentManager.beginTransaction();
-
                 if(engFragment == null){
                     engFragment = new EnglishFragment();
                 }
-                fragmentTransaction.replace(R.id.fragment_kamus, engFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_kamus, engFragment)
+                        .commit();
                 break;
         }
 

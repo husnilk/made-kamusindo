@@ -1,4 +1,4 @@
-package net.husnilkamil.kamusindo;
+package net.husnilkamil.kamusindo.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,14 +6,19 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
-import net.husnilkamil.kamusindo.db.Kamus;
 import net.husnilkamil.kamusindo.db.KamusContract.Indonesia;
-import net.husnilkamil.kamusindo.db.KamusDbHelper;
+import net.husnilkamil.kamusindo.db.KamusContract.Inggris;
 
 import java.util.ArrayList;
 
 public class KamusHelper {
+
+    public final static int IND = 1;
+    public final static int ENG = 2;
+    private static final String TAG = KamusHelper.class.getSimpleName();
 
     private Context context;
     private KamusDbHelper dbHelper;
@@ -34,13 +39,16 @@ public class KamusHelper {
         dbHelper.close();
     }
 
-    public ArrayList<Kamus> searchIndo(String nama) {
+    public ArrayList<Kamus> search(int table, String word){
+        String tableName = getTableName(table);
+
+        String query = "%"+word+"%";
         String result = "";
         Cursor cursor = db.query(
-                Indonesia.TABLE_NAME,
+                tableName,
                 null,
                 Indonesia.COLUMN_NAME_WORD + " LIKE ?",
-                new String[]{nama},
+                new String[]{query},
                 null,
                 null,
                 Indonesia.COLUMN_NAME_ID + " ASC",
@@ -62,14 +70,17 @@ public class KamusHelper {
             } while (!cursor.isAfterLast());
         }
         cursor.close();
+
+        Log.d(TAG, "Jumlah data " + arrayList.size());
         return arrayList;
     }
 
-    public long insertIndo(Kamus kamus) {
+    public long insert(int table, Kamus kamus) {
+        String tableName = getTableName(table);
         ContentValues initialValues = new ContentValues();
         initialValues.put(Indonesia.COLUMN_NAME_WORD, kamus.getWord());
         initialValues.put(Indonesia.COLUMN_NAME_DEF, kamus.getDefinition());
-        return db.insert(Indonesia.TABLE_NAME, null, initialValues);
+        return db.insert(tableName, null, initialValues);
     }
 
 
@@ -85,14 +96,26 @@ public class KamusHelper {
         db.endTransaction();
     }
 
-    public void insertIndoTransaction(Kamus kamus) {
-        String sql = "INSERT INTO " + Indonesia.TABLE_NAME + " (" + Indonesia.COLUMN_NAME_WORD + ", " + Indonesia.COLUMN_NAME_DEF + ") VALUES (?, ?)";
+    public void insertTransaction(int table, Kamus kamus) {
+        String tableName = getTableName(table);
+        String sql = "INSERT INTO " + tableName + " (" + Indonesia.COLUMN_NAME_WORD + ", " + Indonesia.COLUMN_NAME_DEF + ") VALUES (?, ?)";
         SQLiteStatement stmt = db.compileStatement(sql);
         stmt.bindString(1, kamus.getWord());
         stmt.bindString(2, kamus.getDefinition());
         stmt.execute();
         stmt.clearBindings();
 
+    }
+
+    @NonNull
+    private String getTableName(int table) {
+        String tableName;
+        if(table == IND){
+            tableName = Indonesia.TABLE_NAME;
+        }else{
+            tableName = Inggris.TABLE_NAME;
+        }
+        return tableName;
     }
 
 }

@@ -16,10 +16,11 @@ public class KamusDbHelper extends SQLiteOpenHelper {
                     KamusContract.Indonesia.COLUMN_NAME_DEF+ " TEXT)";
 
     private static final String SQL_CREATE_ENG_ENTRIES =
-            "CREATE TABLE "+ KamusContract.Indonesia.TABLE_NAME +" ("+
+            "CREATE TABLE "+ KamusContract.Inggris.TABLE_NAME +" ("+
                     KamusContract.Inggris.COLUMN_NAME_ID + " INTEGER PRIMARY KEY, " +
                     KamusContract.Inggris.COLUMN_NAME_WORD+ " TEXT, " +
                     KamusContract.Inggris.COLUMN_NAME_DEF+ " TEXT)";
+
     private static final String SQL_DELETE_ENG_ENTRIES = "DROP TABLE IF EXISTS " + KamusContract.Inggris.TABLE_NAME;
     private static final String SQL_DELETE_IND_ENTRIES = "DROP TABLE IF EXISTS " + KamusContract.Indonesia.TABLE_NAME;
 

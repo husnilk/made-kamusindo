@@ -51,8 +51,8 @@ public class KamusAdapter extends RecyclerView.Adapter<KamusAdapter.KamusHolder>
 
         public KamusHolder(@NonNull View itemView) {
             super(itemView);
-            textWord = itemView.findViewById(R.id.definition);
-            textDefinition = itemView.findViewById(R.id.word);
+            textWord = itemView.findViewById(R.id.word);
+            textDefinition = itemView.findViewById(R.id.definition);
         }
     }
 }

@@ -11,6 +11,11 @@ public class Kamus implements Parcelable {
     public Kamus() {
     }
 
+    public Kamus(String word, String definition){
+        this.word = word;
+        this.definition = definition;
+    }
+
     protected Kamus(Parcel in) {
         this.word = in.readString();
         this.definition = in.readString();
